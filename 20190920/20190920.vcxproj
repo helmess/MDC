@@ -62,7 +62,7 @@
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>D:\Qt\Qt5.13.0\5.13.0\msvc2015_64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>D:\Qt\Qt5.13.0\5.13.0\msvc2015_64\lib\qtmaind.lib;D:\Qt\Qt5.13.0\5.13.0\msvc2015_64\lib\Qt5Cored.lib;D:\Qt\Qt5.13.0\5.13.0\msvc2015_64\lib\Qt5Guid.lib;D:\Qt\Qt5.13.0\5.13.0\msvc2015_64\lib\Qt5Widgetsd.lib;D:\Qt\Qt5.13.0\5.13.0\msvc2015_64\lib\Qt5Xmld.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <QtMoc>
@@ -95,7 +95,7 @@
     <Link>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>D:\Qt\Qt5.10.0\5.10.0\msvc2015_64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>D:\Qt\Qt5.13.0\5.13.0\msvc2015_64\lib\qtmain.lib;D:\Qt\Qt5.13.0\5.13.0\msvc2015_64\lib\Qt5Core.lib;D:\Qt\Qt5.13.0\5.13.0\msvc2015_64\lib\Qt5Gui.lib;D:\Qt\Qt5.13.0\5.13.0\msvc2015_64\lib\Qt5Widgets.lib;D:\Qt\Qt5.13.0\5.13.0\msvc2015_64\lib\Qt5Xml.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>NotSet</SubSystem>
     </Link>

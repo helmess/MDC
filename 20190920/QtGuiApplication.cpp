@@ -9,6 +9,8 @@ QtGuiApplication::QtGuiApplication(QWidget *parent)
 	RDC_Init();
 	ui.treeWidget->installEventFilter(this);
 	ui.RTree->installEventFilter(this);
+	if(ui.tabwidgt->count()>0)
+	ui.tabwidgt->setCurrentIndex(0);
 }
 void QtGuiApplication::RDC_Init()
 {
@@ -211,9 +213,7 @@ void QtGuiApplication::create_equiment()
 		short_type = "RF";
 	else if (ui.Rcm_data->currentText() == "Event")
 		short_type = "EVE";
-	//清楚csv文件的日期
-	ui.REditLibID_2->clear();
-	ui.REditLibID_3->clear();
+
 	//如果创建的plat存在未填写的内容就提示并返回
 	if (ui.REditcode->text().isEmpty()|| ui.REditFacName->text().isEmpty() || ui.REditLibVersion->text().isEmpty() || ui.REditLibID->text().isEmpty() || ui.REditLibID_2->text().isEmpty() || ui.REditLibID_3->text().isEmpty())
 	{
@@ -425,8 +425,17 @@ void QtGuiApplication::rdc_save_current()
 //rdc 压缩文件
 void QtGuiApplication::rdc_zip()
 {
+	//压缩文件
 	QProcess p(0);
-	QFile mfile("../WinRAR.exe");
+	QString rar_path = QFileDialog::getOpenFileName(this, tr("Open File"),
+		"../",
+		tr("Winrar (*.exe)"));
+	if (rar_path == NULL)
+	{
+		return;
+	}
+
+	QFile mfile(rar_path);
 	QString filename;
 
 	//压缩的文件是rdc文件路径
@@ -583,6 +592,13 @@ void QtGuiApplication::save_file()
 	//保存mission文件到指定位置
 	QDir qd;
 	QString path;
+	if (ui.linecode->text().isEmpty() || ui.linetime_2->text().isEmpty() || ui.linetime_3->text().isEmpty())
+	{
+		QMessageBox::about(this,"Warnning","Code,Date,Time's text it blank");
+		return;
+	}
+
+
 	path = QFileDialog::getSaveFileName(this,"sad","../","all(*)");
 	if (path == NULL)
 		return;
@@ -847,6 +863,12 @@ void QtGuiApplication::del_data(QListWidgetItem * p)
 
 void QtGuiApplication::create_plat()
 {
+	if (ui.cm_plat->currentIndex() == -1)
+	{
+		QMessageBox::about(this, "warning", "null platform");
+		return;
+	}
+
 	//增加csv文件到paltform
 	QString cu_text;
 	cu_text.sprintf("%s(*.csv)", ui.cm_data1_3->currentText().toStdString().data());
@@ -856,6 +878,32 @@ void QtGuiApplication::create_plat()
 		return;
 	}
 	XML_NAME.sprintf("%s-%s.csv", ui.cm_data1_3->currentText().toStdString().data(), M_NAME.toStdString().data());
+	//遍历某个platform的csv文件看有无重复，有则返回
+	for (int i = 0; i < List_pform.size(); i++)
+	{
+		if (List_pform[i]->code == ui.linecode_4->text())
+		{
+
+			for (int k = 0; k < List_pform[i]->q_data.size(); k++)
+			{
+				if (List_pform[i]->q_data[k] == qMakePair(ui.cm_data1_3->currentText(), XML_NAME))
+				{
+					QMessageBox::about(this, "warning", "can't accept the same data");
+					return;
+				}
+
+			}
+
+			List_pform[i]->q_data.append(qMakePair(ui.cm_data1_3->currentText(), XML_NAME));
+			ui.listWidget->clear();
+			for (int j = 0; j < List_pform[i]->q_data.size(); j++)
+			{
+				ui.listWidget->addItem(List_pform[i]->q_data[j].second);
+			}
+			break;
+		}
+	}
+
 	QString plat_path = M_PATH;
 	QString plat_name;
 	plat_name.sprintf("%s-%s", ui.linecode_4->text().toStdString().data(), M_NAME.toStdString().data());
@@ -872,31 +920,7 @@ void QtGuiApplication::create_plat()
 	//添加完csv后更新数据结构
 	Update_DS();
 
-	//遍历某个platform的csv文件看有无重复，有则返回
-		for (int i = 0; i < List_pform.size(); i++)
-		{
-			if (List_pform[i]->code == ui.linecode_4->text())
-			{
-
-				for (int k = 0; k < List_pform[i]->q_data.size() ; k++)
-				{
-					if (List_pform[i]->q_data[k] == qMakePair(ui.cm_data1_3->currentText(), XML_NAME))
-					{
-						QMessageBox::about(this, "warning", "can't accept the same data");
-						return;
-					}
-
-				}
-
-				List_pform[i]->q_data.append(qMakePair(ui.cm_data1_3->currentText(), XML_NAME));
-				ui.listWidget->clear();
-				for (int j = 0; j < List_pform[i]->q_data.size(); j++)
-				{
-					ui.listWidget->addItem(List_pform[i]->q_data[j].second);
-				}
-				break;
-			}
-		}
+	
 	
 
 	//复制csv文件到指定platform 的文件夹

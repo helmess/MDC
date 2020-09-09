@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="System"?>
+<Simulation>
+    <name>123</name>
+    <description>123</description>
+    <OPERATOR>123</OPERATOR>
+    <startTime>
+        <seconds>123</seconds>
+        <microseconds>0</microseconds>
+    </startTime>
+    <endTime>
+        <seconds>12</seconds>
+        <microseconds>0</microseconds>
+    </endTime>
+    <Equipments>
+        <Equipment>
+            <code>44</code>
+            <EquipmentLabID>SUT1</EquipmentLabID>
+            <EquipmentFactoryName>2</EquipmentFactoryName>
+            <ewLibraryID>12</ewLibraryID>
+            <ewLibraryVersion>3</ewLibraryVersion>
+            <recordData/>
+        </Equipment>
+    </Equipments>
+</Simulation>
